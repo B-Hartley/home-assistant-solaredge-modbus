@@ -2,8 +2,7 @@
 
 import logging
 
-from pymodbus.constants import Endian
-from pymodbus.payload import BinaryPayloadBuilder
+from .payload import Endian, BinaryPayloadBuilder
 
 from homeassistant.components.number import NumberEntity
 from homeassistant.const import CONF_NAME

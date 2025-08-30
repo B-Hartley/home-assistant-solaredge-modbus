@@ -7,8 +7,8 @@ import operator
 from typing import cast
 
 from pymodbus.client import AsyncModbusTcpClient
-from pymodbus.constants import Endian
 from pymodbus.exceptions import ModbusException
+from .payload import Endian, BinaryPayloadDecoder
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry
@@ -52,7 +52,6 @@ from .const import (
     STORAGE_CHARGE_DISCHARGE_MODE,
     STORAGE_CONTROL_MODE,
 )
-from .payload import BinaryPayloadDecoder
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -303,7 +302,7 @@ class SolaredgeModbusHub:
         """Read holding registers."""
         async with self._lock:
             return await self._client.read_holding_registers(
-                address=address, count=count, slave=unit
+                address=address, count=count, device_id=unit
             )
 
     async def write_registers(self, unit, address, payload):
@@ -311,7 +310,7 @@ class SolaredgeModbusHub:
         try:
             async with self._lock:
                 return await self._client.write_registers(
-                    address=address, values=payload, slave=unit
+                    address=address, values=payload, device_id=unit
                 )
         except ModbusException as err:
             raise HomeAssistantError(err) from err
@@ -321,7 +320,7 @@ class SolaredgeModbusHub:
         try:
             async with self._lock:
                 return await self._client.write_register(
-                    address=address, value=payload, slave=unit
+                    address=address, value=payload, device_id=unit
                 )
         except ModbusException as err:
             raise HomeAssistantError(err) from err
