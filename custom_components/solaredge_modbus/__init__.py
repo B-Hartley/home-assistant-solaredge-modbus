@@ -7,8 +7,8 @@ import operator
 from typing import cast
 
 from pymodbus.client import AsyncModbusTcpClient
-from pymodbus.constants import Endian
 from pymodbus.exceptions import ModbusException
+from .payload import Endian, BinaryPayloadDecoder
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry
@@ -52,7 +52,6 @@ from .const import (
     STORAGE_CHARGE_DISCHARGE_MODE,
     STORAGE_CONTROL_MODE,
 )
-from .payload import BinaryPayloadDecoder
 
 _LOGGER = logging.getLogger(__name__)
 

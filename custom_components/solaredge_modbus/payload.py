@@ -9,15 +9,24 @@ from __future__ import annotations
 __all__ = [
     "BinaryPayloadBuilder",
     "BinaryPayloadDecoder",
+    "Endian",
 ]
 
 # pylint: disable=missing-type-doc
 from struct import pack, unpack
 
-from pymodbus.constants import Endian
+from enum import Enum
+
 from pymodbus.exceptions import ParameterException
 from pymodbus.logging import Log
 from pymodbus.pdu.pdu import pack_bitstring, unpack_bitstring
+
+
+class Endian(str, Enum):
+    """Enumeration of byte endianness."""
+
+    BIG = ">"
+    LITTLE = "<"
 
 WC = {"b": 1, "h": 2, "e": 2, "i": 4, "l": 4, "q": 8, "f": 4, "d": 8}
 
@@ -29,7 +38,7 @@ class BinaryPayloadBuilder:
     however it saves time looking up the format strings.
     What follows is a simple example::
 
-        builder = BinaryPayloadBuilder(byteorder=Endian.Little)
+        builder = BinaryPayloadBuilder(byteorder=Endian.LITTLE)
         builder.add_8bit_uint(1)
         builder.add_16bit_uint(2)
         payload = builder.build()
